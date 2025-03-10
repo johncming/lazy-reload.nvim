@@ -1,5 +1,5 @@
 local LazyReload = {
-	opts = {}
+	opts = {},
 }
 
 LazyReload.default_config = {
@@ -30,16 +30,18 @@ LazyReload.setup = function(opts)
 				table.insert(names, name)
 			end
 			return vim.tbl_filter(function(s)
-				return string.match(s, '^' .. arg)
+				return string.match(s, "^" .. arg)
 			end, names)
 		end,
 		nargs = 1,
 	})
 end
 
-LazyReload.feed = function()
-	vim.api.nvim_feedkeys(":" .. LazyReload.opts.command_name .. " ", "n", true)
+LazyReload.feed = function(plugin)
+	if not plugin then
+		plugin = ""
+	end
+	vim.api.nvim_feedkeys(":" .. LazyReload.opts.command_name .. " " .. plugin, "n", true)
 end
-
 
 return LazyReload
